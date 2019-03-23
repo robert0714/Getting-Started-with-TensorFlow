@@ -3,8 +3,8 @@
 ## Code Testing Specifications
 
 Software required (With version): 
-Python(2.7)
-TensorFlow(0.7)
+Python(3.5)
+TensorFlow(1.13.1)
 Bazel(0.3.0)
 Pip(8.1.2)
 MatPlotlib(1.5.1)
