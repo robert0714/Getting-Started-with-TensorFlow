@@ -4,12 +4,14 @@
 #STEP 1 --- PREPARE THE DATA
 import matplotlib.image as mp_image
 filename = "packt.jpeg"
+# Remember to type pip install Pillow
+print ('pip install Pillow' )
 input_image = mp_image.imread(filename)
 
 #dimension
-print 'input dim = {}'.format(input_image.ndim)
+print ('input dim = {}'.format(input_image.ndim))
 #shape
-print 'input shape = {}'.format(input_image.shape)
+print ('input shape = {}'.format(input_image.shape))
 
 height,width,depth= input_image.shape
 
@@ -20,7 +22,8 @@ plt.show()
 import tensorflow as tf
 
 x = tf.Variable(input_image,name='x')
-model = tf.initialize_all_variables()
+# model = tf.initialize_all_variables()
+model = tf.global_variables_initializer()
 
 with tf.Session() as session:
     x = tf.transpose(x, perm=[1,0,2])
