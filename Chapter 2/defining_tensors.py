@@ -75,3 +75,25 @@ print( result2 )
 
 print( "matrix3 determinant result = " )
 print( result3 )    
+
+tensor_3d = np.array([[[1,2],[3,4],[5,6],[7,8]]])
+print( tensor_3d )
+
+# see tensor_3d's rank
+print("see tensor_3d's rank")
+print(tensor_3d.ndim)
+
+# see tensor_3d's tuple
+print("see tensor_3d's tuple")
+print(tensor_3d.shape)
+
+# see tensor_3d's data type
+print("see tensor_3d's data type")
+print(tensor_3d.dtype)
+
+print("set  tensor_3d[plane,row,col]")
+
+print(tensor_3d[0,0,0])
+print(tensor_3d[0,0,1])
+print(tensor_3d[0,1,0])
+print(tensor_3d[0,1,1])
