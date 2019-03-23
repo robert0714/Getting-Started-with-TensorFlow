@@ -7,7 +7,7 @@ import tensorflow as tf
 def display_partition(x_values,y_values,assignment_values):
     labels = []
     colors = ["red","blue","green","yellow"]
-    for i in xrange(len(assignment_values)):
+    for i in range(len(assignment_values)):
       labels.append(colors[(assignment_values[i])])
     color = labels
     df = pd.DataFrame\
@@ -27,7 +27,7 @@ y_values = []
 vector_values = []
 
 #CREATE RANDOM DATA
-for i in xrange(num_vectors):
+for i in range(num_vectors):
   if np.random.random() > 0.5:
     x_values.append(np.random.normal(0.4, 0.7))
     y_values.append(np.random.normal(0.2, 0.8))
@@ -35,8 +35,20 @@ for i in xrange(num_vectors):
   else:
     x_values.append(np.random.normal(0.6, 0.4))
     y_values.append(np.random.normal(0.8, 0.5))
-vector_values = zip(x_values,y_values)
+    
+#vector_values = zip(x_values,y_values)
 vectors = tf.constant(vector_values)
+
+try:
+  vectors = tf.constant(vector_values)
+except:
+  print("An exception occurred")
+
+
+plt.plot(x_values,y_values, 'o', label='Input Data')
+plt.legend()
+plt.show()
+
 
 n_samples = tf.shape(vector_values)[0]
 random_indices = tf.random_shuffle(tf.range(0, n_samples))
@@ -48,17 +60,16 @@ centroids = tf.Variable(tf.gather(vector_values, centroid_indices))
 expanded_vectors = tf.expand_dims(vectors, 0)
 expanded_centroids = tf.expand_dims(centroids, 1)
 
-vectors_subtration = tf.sub(expanded_vectors,expanded_centroids)
-euclidean_distances =         
-               \tf.reduce_sum(tf.square(vectors_subtration), 2)
+vectors_subtration = tf.subtract(expanded_vectors,expanded_centroids)
+euclidean_distances =tf.reduce_sum(tf.square(vectors_subtration), 2)
 
 assignments = tf.to_int32(tf.argmin(euclidean_distances, 0))
 
 partitions = [0, 0, 1, 1, 0]
 num_partitions = 2
 data = [10, 20, 30, 40, 50]
-outputs[0] = [10, 20, 50]
-outputs[1] = [30, 40]
+#outputs[0] = [10, 20, 50]
+#outputs[1] = [30, 40]
 partitions = tf.dynamic_partition(vectors, assignments, num_clusters)
 
 update_centroids = tf.concat(0, \
@@ -71,7 +82,7 @@ init_op = tf.initialize_all_variables()
 
 sess = tf.Session()
 sess.run(init_op)
-for step in xrange(num_steps):
+for step in range(num_steps):
    _, centroid_values, assignment_values =\
       sess.run([update_centroids,\
                 centroids,\
