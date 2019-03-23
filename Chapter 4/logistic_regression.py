@@ -1,3 +1,4 @@
+
 # Import MINST data
 import input_data
 mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
@@ -38,7 +39,7 @@ avg_set = []
 epoch_set=[]
 
 # Initializing the variables
-init = tf.initialize_all_variables()
+init = tf.global_variables_initializer()
 
 # Launch the graph
 with tf.Session() as sess:
@@ -61,10 +62,10 @@ with tf.Session() as sess:
                                             y: batch_ys})/total_batch
         # Display logs per epoch step
         if epoch % display_step == 0:
-            print "Epoch:", '%04d' % (epoch+1), "cost=", "{:.9f}".format(avg_cost)
+            print ( "Epoch:", '%04d' % (epoch+1), "cost=", "{:.9f}".format(avg_cost))
         avg_set.append(avg_cost)
         epoch_set.append(epoch+1)
-    print "Training phase finished"
+    print ("Training phase finished")
 
     plt.plot(epoch_set,avg_set, 'o', label='Logistic Regression Training phase')
     plt.ylabel('cost')
@@ -76,4 +77,4 @@ with tf.Session() as sess:
     correct_prediction = tf.equal(tf.argmax(activation, 1), tf.argmax(y, 1))
     # Calculate accuracy
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
-    print "Model accuracy:", accuracy.eval({x: mnist.test.images, y: mnist.test.labels})
+    print ("Model accuracy:", accuracy.eval({x: mnist.test.images, y: mnist.test.labels}))
