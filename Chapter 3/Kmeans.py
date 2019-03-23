@@ -52,25 +52,38 @@ plt.show()
 
 n_samples = tf.shape(vector_values)[0]
 random_indices = tf.random_shuffle(tf.range(0, n_samples))
+
 begin = [0,]
 size = [num_clusters,]
 size[0] = num_clusters
+
 centroid_indices = tf.slice(random_indices, begin, size)
 centroids = tf.Variable(tf.gather(vector_values, centroid_indices))
+
+
 expanded_vectors = tf.expand_dims(vectors, 0)
 expanded_centroids = tf.expand_dims(centroids, 1)
 
 vectors_subtration = tf.subtract(expanded_vectors,expanded_centroids)
-euclidean_distances =tf.reduce_sum(tf.square(vectors_subtration), 2)
 
-assignments = tf.to_int32(tf.argmin(euclidean_distances, 0))
+print(vectors_subtration)
+print(tf.square(vectors_subtration))
+
+euclidean_distances =tf.reduce_sum(tf.square(vectors_subtration), 1)
+
+assignments = tf.cast(tf.argmin(euclidean_distances, 0), dtype='int32')
 
 partitions = [0, 0, 1, 1, 0]
 num_partitions = 2
 data = [10, 20, 30, 40, 50]
-#outputs[0] = [10, 20, 50]
-#outputs[1] = [30, 40]
+outputs= [[10, 20, 50],[30, 40]]
+outputs[0] = [10, 20, 50]
+outputs[1] = [30, 40]
 partitions = tf.dynamic_partition(vectors, assignments, num_clusters)
+
+print('---------')
+#print(tf.reduce_mean(partition, 0))
+
 
 update_centroids = tf.concat(0, \
                              [tf.expand_dims\
