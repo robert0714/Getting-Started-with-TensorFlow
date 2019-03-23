@@ -1,7 +1,9 @@
 #Import libraries for simulation
 import tensorflow as tf
 import numpy as np
-from pde_lib import *
+import matplotlib.pyplot as plt
+# from pde_lib import *
+from IPython.display import clear_output
 
 
   
@@ -25,7 +27,8 @@ def laplace(x):
   return simple_conv(x, laplace_k)
 
   
-sess = tf.InteractiveSession()
+# sess = tf.InteractiveSession()
+sess = tf.global_variables_initializer()
 
 N = 500
 
