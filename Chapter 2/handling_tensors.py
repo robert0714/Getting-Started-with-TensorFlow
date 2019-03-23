@@ -4,12 +4,14 @@
 #STEP 1 --- PREPARE THE DATA
 import matplotlib.image as mp_image
 filename = "packt.jpeg"
+# Remember to type pip install Pillow
+print ('pip install Pillow' )
 input_image = mp_image.imread(filename)
-
+ 
 #dimension
-print 'input dim = {}'.format(input_image.ndim)
+print ('input dim = {}'.format(input_image.ndim))
 #shape
-print 'input shape = {}'.format(input_image.shape)
+print ('input shape = {}'.format(input_image.shape))
 
 import matplotlib.pyplot as plt
 plt.imshow(input_image)
