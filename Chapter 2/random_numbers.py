@@ -11,7 +11,7 @@ with tf.Session() as session:
 
 uniform = tf.random_uniform([100],minval=0,maxval=1,dtype=tf.float32)
 with tf.Session() as session:
-    print uniform.eval()
+    print( uniform.eval() )
     plt.hist(uniform.eval(),normed=True)
     plt.show() 
 
