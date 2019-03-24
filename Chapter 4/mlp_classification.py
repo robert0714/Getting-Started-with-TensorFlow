@@ -42,8 +42,9 @@ bias_output = tf.Variable(tf.random_normal([n_classes]))
 #output layer
 output_layer = tf.matmul(layer_2, output) + bias_output
 
+
 # cost function
-cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(output_layer, y))
+cost = tf.reduce_mean( tf.nn.softmax_cross_entropy_with_logits(logits=output_layer, labels=y))
 # optimizer
 optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost) 
 #optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(cost)
@@ -54,7 +55,7 @@ avg_set = []
 epoch_set=[]
     
 # Initializing the variables
-init = tf.initialize_all_variables()
+init = tf.global_variables_initializer()
 
 # Launch the graph
 with tf.Session() as sess:
@@ -73,10 +74,10 @@ with tf.Session() as sess:
             avg_cost += sess.run(cost, feed_dict={x: batch_xs, y: batch_ys})/total_batch
         # Display logs per epoch step
         if epoch % display_step == 0:
-            print "Epoch:", '%04d' % (epoch+1), "cost=", "{:.9f}".format(avg_cost)
+            print ("Epoch:", '%04d' % (epoch+1), "cost=", "{:.9f}".format(avg_cost))
         avg_set.append(avg_cost)
         epoch_set.append(epoch+1)
-    print "Training phase finished"
+    print ("Training phase finished")
 
     plt.plot(epoch_set,avg_set, 'o', label='MLP Training phase')
     plt.ylabel('cost')
@@ -88,4 +89,4 @@ with tf.Session() as sess:
     correct_prediction = tf.equal(tf.argmax(output_layer, 1), tf.argmax(y, 1))
     # Calculate accuracy
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
-    print "Model Accuracy:", accuracy.eval({x: mnist.test.images, y: mnist.test.labels})
+    print ("Model Accuracy:", accuracy.eval({x: mnist.test.images, y: mnist.test.labels}))
