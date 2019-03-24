@@ -36,13 +36,10 @@ for i in range(num_vectors):
     x_values.append(np.random.normal(0.6, 0.4))
     y_values.append(np.random.normal(0.8, 0.5))
     
-#vector_values = zip(x_values,y_values)
+vector_values = list(zip(x_values,y_values))
+print("vector_values = ",type(vector_values))
+ 
 vectors = tf.constant(vector_values)
-
-try:
-  vectors = tf.constant(vector_values)
-except:
-  print("An exception occurred")
 
 
 plt.plot(x_values,y_values, 'o', label='Input Data')
@@ -69,7 +66,7 @@ vectors_subtration = tf.subtract(expanded_vectors,expanded_centroids)
 print(vectors_subtration)
 print(tf.square(vectors_subtration))
 
-euclidean_distances =tf.reduce_sum(tf.square(vectors_subtration), 1)
+euclidean_distances =tf.reduce_sum(tf.square(vectors_subtration), 2)
 
 assignments = tf.cast(tf.argmin(euclidean_distances, 0), dtype='int32')
 
@@ -82,13 +79,15 @@ outputs[1] = [30, 40]
 partitions = tf.dynamic_partition(vectors, assignments, num_clusters)
 
 print('---------')
-#print(tf.reduce_mean(partition, 0))
+for partition in partitions:
+    print("partition = ",type(partition))
+    mean = tf.reduce_mean(partition, 0)
+    print("reduce_mean = ",mean)
+    expand_dims = tf.expand_dims(tf.reduce_mean(partition, 0), 0)
+    print("expand_dims = ", expand_dims)
 
 
-update_centroids = tf.concat(0, \
-                             [tf.expand_dims\
-                              (tf.reduce_mean(partition, 0), 0)\
-                              for partition in partitions])
+update_centroids = tf.concat( [ tf.expand_dims(tf.reduce_mean(partition, 0), 0)  for partition in partitions ], 0 )
 
 
 init_op = tf.initialize_all_variables()
