@@ -92,8 +92,12 @@ accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 # Initializing the variables
 init = tf.initialize_all_variables()
 
-# Launch the graph
-with tf.Session() as sess:
+# https://github.com/tensorflow/tensorflow/issues/24828
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+
+# Start training
+with tf.Session(config=config) as sess:
     sess.run(init)
     step = 1
     # Keep training until reach max iterations
